@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user account information and preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "favoriteCategory": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["uid", "createdAt"]
+    },
+    "WorldRecord": {
+      "title": "World Record",
+      "description": "A Guinness World Record entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "holder": { "type": "string" },
+        "dateSet": { "type": "string" },
+        "location": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "likesCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "tags": { "type": "array" },
+        "isVerified": { "type": "boolean" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "title", "description", "category", "timestamp"]
+    },
+    "UserLike": {
+      "title": "User Like",
+      "description": "Represents a user liking a record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "recordId": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["userId", "recordId", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Public user profiles."
+    },
+    "/records/{recordId}": {
+      "schema": "WorldRecord",
+      "description": "Global records feed."
+    },
+    "/likes/{likeId}": {
+      "schema": "UserLike",
+      "description": "User likes for records."
+    }
+  }
+}

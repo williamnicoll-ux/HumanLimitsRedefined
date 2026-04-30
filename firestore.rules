@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- User Profiles ---
+    match /users/{userId} {
+      allow read: if true; // Public profiles
+      allow create: if isOwner(userId) 
+                    && isValidUserProfile(incoming())
+                    && incoming().createdAt == request.time;
+      allow update: if isOwner(userId)
+                    && isValidUserProfile(incoming())
+                    && incoming().createdAt == existing().createdAt
+                    && (
+                      incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'bio', 'favoriteCategory'])
+                    );
+    }
+
+    function isValidUserProfile(data) {
+      return data.uid is string && data.uid.size() <= 128
+          && (data.displayName == null || (data.displayName is string && data.displayName.size() <= 50))
+          && (data.photoURL == null || (data.photoURL is string && data.photoURL.size() <= 512))
+          && (data.bio == null || (data.bio is string && data.bio.size() <= 500))
+          && (data.favoriteCategory == null || (data.favoriteCategory is string && data.favoriteCategory.size() <= 50))
+          && data.createdAt is timestamp;
+    }
+
+    // --- Records ---
+    match /records/{recordId} {
+      allow read: if true;
+      // Records are system-generated for now, so only read is allowed via client
+      // In a real app, you might have admin rules here.
+      allow write: if false; 
+    }
+
+    // --- Likes ---
+    match /likes/{likeId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+                    && isOwner(incoming().userId)
+                    && isValidId(incoming().recordId)
+                    && incoming().timestamp == request.time;
+      allow delete: if isOwner(existing().userId);
+    }
+  }
+}

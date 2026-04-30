@@ -1,0 +1,6 @@
+{
+  "name": "RecordPulse",
+  "description": "A real-time hub for Guinness World Records with a personalized profile experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["firebase", "ai-powered"]
+}
