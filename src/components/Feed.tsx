@@ -73,25 +73,27 @@ export default function Feed({ searchQuery = "" }: { searchQuery?: string }) {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
-      <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-           <div className="mb-4 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-accent">
-             <Zap size={14} className="fill-accent" />
-             Live Stream Grid
+      <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-12">
+        <div className="max-w-2xl">
+           <div className="mb-6 flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-accent/80">
+             <div className="w-12 h-[1px] bg-accent/30" />
+             LIVE STREAM GRID
            </div>
-           <h2 className="font-display text-5xl md:text-7xl uppercase tracking-tighter text-white leading-none">
-             Extraordinary <span className="text-muted italic">Moments</span>
+           <h2 className="font-display text-6xl md:text-8xl uppercase tracking-tighter text-white leading-[0.85]">
+             HUMAN <span className="text-muted/40 italic">ACHIEVEMENTS</span>
            </h2>
         </div>
         
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 bg-white/[0.03] p-1.5 rounded-full border border-white/5">
            {['All', 'Sport', 'Skill', 'Body', 'Gaming', 'Troll'].map((cat) => (
              <button 
                key={cat}
                onClick={() => setActiveCategory(cat)}
                className={cn(
-                 "rounded-full border border-white/10 px-5 py-2 text-xs font-bold transition-all hover:border-accent",
-                 activeCategory === cat ? "bg-accent text-black border-accent" : "bg-white/5 text-muted hover:text-accent"
+                 "rounded-full px-6 py-2.5 text-[11px] font-black uppercase tracking-wider transition-all duration-300",
+                 activeCategory === cat 
+                   ? "bg-accent text-black shadow-[0_10px_30px_rgba(245,158,11,0.2)]" 
+                   : "text-muted hover:text-white"
                )}
              >
                {cat}
@@ -101,7 +103,7 @@ export default function Feed({ searchQuery = "" }: { searchQuery?: string }) {
       </div>
 
       {filteredRecords.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredRecords.map((record, i) => (
             <RecordCard key={record.id} record={record} index={i} />
           ))}

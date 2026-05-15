@@ -24,29 +24,29 @@ export default function Hero({ onOpenSubmit }: { onOpenSubmit: () => void }) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 flex items-center gap-3 bg-red-600/10 border border-red-600/20 px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase text-red-500 animate-pulse"
+            className="mb-12 flex items-center gap-6"
           >
-            <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
-            LIVE STREAM FEED
+            <div className="h-[1px] w-12 bg-white/20" />
+            <span className="text-[10px] font-black tracking-[0.4em] uppercase text-muted">AESTHETIC ACHIEVEMENT HUB</span>
+            <div className="h-[1px] w-12 bg-white/20" />
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8 font-display text-7xl leading-[0.85] text-white sm:text-9xl lg:text-[11rem] uppercase tracking-tighter"
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-12 font-display text-8xl leading-[0.8] text-white sm:text-9xl lg:text-[14rem] uppercase tracking-[-0.04em]"
           >
-            HUMAN <span className="text-accent">LIMITS</span> <br />
-            <span className="text-muted italic">REDEFINED</span>
+            PEAK <span className="text-muted/20">PERF<br />ORMA</span>NCE
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="mb-12 max-w-3xl text-lg leading-relaxed text-muted md:text-xl font-medium"
+            transition={{ duration: 1.5, delay: 0.2 }}
+            className="mb-16 max-w-2xl text-lg leading-relaxed text-muted/60 md:text-xl font-medium tracking-tight"
           >
-            Experience the extraordinary. From the fastest man on hands to the longest breath held, track the limits of possibility in real-time.
+            The world's most comprehensive catalog of human capability. Verified in real-time, presented with surgical precision. Explore the edge of what's possible.
           </motion.p>
 
           <motion.div
@@ -81,20 +81,20 @@ export default function Hero({ onOpenSubmit }: { onOpenSubmit: () => void }) {
              className="mt-24 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full"
           >
             <div className="bento-card flex flex-col items-center justify-center py-10">
-              <p className="font-mono text-5xl font-black text-white tracking-tighter">62.4<span className="text-accent text-3xl">k</span></p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Active Records</p>
+              <p className="font-mono text-5xl font-black text-white tracking-tighter">12.8<span className="text-accent text-3xl">k</span></p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Verified Records</p>
             </div>
             <div className="bento-card flex flex-col items-center justify-center py-10">
-              <p className="font-mono text-5xl font-black text-white tracking-tighter">24<span className="text-accent text-3xl">h</span></p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Global Coverage</p>
+              <p className="font-mono text-5xl font-black text-white tracking-tighter">24<span className="text-accent text-3xl">/7</span></p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Active Monitoring</p>
             </div>
             <div className="bento-card flex flex-col items-center justify-center py-10">
-              <p className="font-mono text-5xl font-black text-white tracking-tighter">4.2<span className="text-accent text-3xl">%</span></p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Success Rate</p>
+              <p className="font-mono text-5xl font-black text-white tracking-tighter">850<span className="text-accent text-3xl">+</span></p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">New Monthly Submissions</p>
             </div>
             <div className="bento-card flex flex-col items-center justify-center py-10">
-              <p className="font-mono text-5xl font-black text-white tracking-tighter">180<span className="text-accent text-3xl">+</span></p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Regions</p>
+              <p className="font-mono text-5xl font-black text-white tracking-tighter">192<span className="text-accent text-3xl"></span></p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">Participating Nations</p>
             </div>
           </motion.div>
         </div>

@@ -78,6 +78,38 @@ function HomePage({ user, searchQuery, onOpenSubmit }: { user: any; searchQuery:
   );
 }
 
+function BackgroundAnimation() {
+  return (
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-[#030303]">
+      <motion.div 
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -20, 30, 0],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] rounded-full bg-orange-600/[0.03] blur-[160px]"
+      />
+      <motion.div 
+        animate={{
+          x: [0, -40, 20, 0],
+          y: [0, 30, -20, 0],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-white/[0.015] blur-[140px]"
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,3,3,1)_100%)]" />
+    </div>
+  );
+}
+
 export default function App() {
   const { user, profile, loading } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
@@ -100,6 +132,7 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-neutral-950 selection:bg-orange-600 selection:text-white">
+        <BackgroundAnimation />
         <Navbar 
           user={user} 
           profile={profile} 

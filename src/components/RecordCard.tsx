@@ -11,86 +11,73 @@ interface RecordCardProps {
 export default function RecordCard({ record, index }: RecordCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      whileHover={{ y: -4 }}
-      className="bento-card group relative flex flex-col overflow-hidden cursor-pointer"
+      transition={{ 
+        delay: index * 0.05, 
+        duration: 0.8, 
+        ease: [0.21, 0.47, 0.32, 0.98] 
+      }}
+      className="bento-card group relative flex flex-col overflow-hidden cursor-pointer !p-0"
     >
       <Link to={`/record/${record.id}`} className="absolute inset-0 z-20" />
       
-      {/* Absolute Badges */}
-      <div className="absolute top-4 left-4 z-10 flex gap-2">
-        <span className="flex items-center gap-1 rounded-full bg-black/60 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-neutral-300 backdrop-blur-md border border-white/10">
-          <TrophyIcon size={12} className="text-accent" />
-          {record.category}
-        </span>
-        {record.isVerified && (
-          <span className="flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-lg">
-            <ShieldCheck size={12} />
-            Verified
-          </span>
-        )}
-      </div>
-
       {/* Image Container */}
-      <div className="relative aspect-[16/10] overflow-hidden -mx-6 -mt-6 mb-6">
+      <div className="relative aspect-[4/3] overflow-hidden">
         <img
           src={record.imageUrl}
           alt={record.title}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-bento-card via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+        
+        {/* Badges Overlay */}
+        <div className="absolute top-6 left-6 z-10 flex gap-2">
+          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-white backdrop-blur-xl border border-white/10">
+            {record.category}
+          </span>
+          {record.isVerified && (
+            <span className="flex items-center gap-1.5 rounded-full bg-accent/90 px-3 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-black shadow-xl">
+              <ShieldCheck size={11} strokeWidth={3} />
+              Verified
+            </span>
+          )}
+        </div>
       </div>
-
+      
       {/* Content */}
-      <div className="flex flex-1 flex-col">
-        <div className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
-          <Calendar size={12} />
-          {new Date(record.dateSet).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      <div className="flex flex-1 flex-col p-8 pt-2">
+        <div className="mb-3 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.25em] text-muted">
+          <Calendar size={11} />
+          {new Date(record.dateSet).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
         </div>
 
-        <h3 className="mb-3 font-display text-2xl leading-tight text-white group-hover:text-accent transition-colors">
+        <h3 className="mb-4 font-display text-2xl leading-[1.1] text-white tracking-tight group-hover:text-accent transition-colors duration-300">
           {record.title}
         </h3>
 
-        <p className="mb-6 line-clamp-2 text-xs font-medium leading-relaxed text-muted">
+        <p className="mb-8 line-clamp-2 text-sm font-medium leading-relaxed text-muted/80">
           {record.description}
         </p>
 
         {/* Footer Meta */}
-        <div className="mt-auto flex flex-col gap-4">
-          <div className="flex items-center gap-3 text-xs font-bold text-white">
-             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-muted border border-white/5">
-               {record.holder[0]}
-             </div>
-             <div>
-               <p className="text-[10px] uppercase text-muted leading-none mb-1 font-black tracking-widest">Record Holder</p>
-               <p>{record.holder}</p>
-             </div>
-          </div>
-
-          <div className="flex items-center justify-between border-t border-white/5 pt-4">
-            <div className="flex gap-4 relative z-30">
-              <button 
-                onClick={(e) => { e.stopPropagation(); alert("Liked!"); }}
-                className="flex items-center gap-1.5 text-xs text-muted hover:text-accent transition-colors"
-              >
-                <Heart size={16} />
-                <span className="font-mono font-bold">{record.likesCount}</span>
-              </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); alert("Comments coming soon!"); }}
-                className="flex items-center gap-1.5 text-xs text-muted hover:text-accent transition-colors"
-              >
-                <MessageSquare size={16} />
-                <span className="font-mono font-bold">{record.commentsCount}</span>
-              </button>
+        <div className="mt-auto pt-6 border-t border-white/[0.03]">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] text-[10px] font-black text-muted border border-white/5 uppercase">
+                 {record.holder[0]}
+               </div>
+               <span className="text-[11px] font-bold text-white tracking-tight">{record.holder}</span>
             </div>
             
-            <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-muted tracking-widest relative z-30">
-               <MapPin size={12} className="text-accent" />
-               {record.location}
+            <div className="flex items-center gap-4 relative z-30">
+              <button 
+                onClick={(e) => { e.stopPropagation(); }}
+                className="flex items-center gap-1.5 text-[11px] text-muted hover:text-white transition-colors"
+              >
+                <Heart size={14} />
+                <span className="font-mono">{record.likesCount}</span>
+              </button>
             </div>
           </div>
         </div>

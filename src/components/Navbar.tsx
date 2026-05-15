@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import { UserProfile } from "../types";
-import { LogIn, LogOut, User as UserIcon, Trophy, Settings } from "lucide-react";
+import { LogIn, LogOut, User as UserIcon, Trophy, Settings, ArrowRight } from "lucide-react";
 import { signInWithGoogle, logout } from "../lib/firebase";
 import { useState, useEffect } from "react";
 import EditProfile from "./EditProfile";
@@ -46,74 +46,72 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 md:px-8">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-bold text-black shadow-[0_0_20px_rgba(245,158,11,0.2)] group-hover:scale-110 transition-transform">
-              <div className="w-4 h-4 bg-black rounded-sm"></div>
+      <nav className="sticky top-0 z-50 w-full border-b border-white/[0.03] bg-[#030303]/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-accent font-black text-black shadow-[0_0_40px_rgba(245,158,11,0.15)] group-hover:scale-105 group-active:scale-95 transition-all duration-300">
+              <div className="w-5 h-5 bg-black rounded-md transform rotate-12 group-hover:rotate-0 transition-transform"></div>
+              <div className="absolute inset-0 rounded-xl border border-white/20"></div>
             </div>
-            <span className="font-display text-xl tracking-tight uppercase md:block hidden text-white">
-              Record<span className="text-accent">Stream</span>
+            <span className="font-display text-2xl tracking-[-0.05em] uppercase md:block hidden text-white">
+              PEAK<span className="text-muted/40">ACHIVE</span>
             </span>
           </Link>
 
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-              <Link to="/" className="text-accent">Explore</Link>
+          <div className="flex items-center gap-10">
+            <div className="hidden md:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.2em]">
+              <Link to="/" className="text-accent hover:text-white transition-colors">Digital Grid</Link>
               <button 
                 onClick={handleCategoriesClick}
-                className="text-muted hover:text-white transition-colors"
+                className="text-muted/60 hover:text-white transition-colors"
               >
                 Categories
               </button>
               <button 
                 onClick={() => alert("Leaderboard coming soon!")}
-                className="text-muted hover:text-white transition-colors"
+                className="text-muted/60 hover:text-white transition-colors"
               >
-                Leaderboard
+                Elite Rank
               </button>
             </div>
 
-            <div className="h-8 w-[1px] bg-white/10 hidden md:block" />
-
-            <div className="hidden lg:flex items-center gap-3 bg-white/5 rounded-full pl-4 pr-1 py-1 border border-white/10 focus-within:border-accent transition-colors group">
+            <div className="hidden lg:flex items-center gap-3 bg-white/[0.03] rounded-full pl-5 pr-2 py-1.5 border border-white/[0.05] focus-within:border-white/20 transition-all duration-300 group">
               <input 
                 id="navbar-search"
                 type="text"
-                placeholder="Search records..."
+                placeholder="Search archive..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="bg-transparent border-none outline-none text-xs text-white placeholder:text-muted w-32 focus:w-48 transition-all"
+                className="bg-transparent border-none outline-none text-[11px] font-bold text-white placeholder:text-muted/30 w-36 focus:w-56 transition-all"
               />
-              <div className="w-10 h-6 bg-white/10 rounded-full flex items-center justify-center text-[10px] text-muted font-bold tracking-tighter">⌘K</div>
+              <div className="px-2 py-1 bg-white/[0.05] rounded-md text-[9px] text-muted/40 font-black tracking-tighter">⌘K</div>
             </div>
 
             {user ? (
-              <div className="flex items-center gap-4">
-                <div className="flex flex-col items-end leading-none">
+              <div className="flex items-center gap-5">
+                <div className="flex flex-col items-end gap-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold">{profile?.displayName || user.displayName}</span>
+                    <span className="text-[11px] font-black uppercase tracking-tight text-white">{profile?.displayName || user.displayName}</span>
                     <button 
                       onClick={() => setIsEditModalOpen(true)}
-                      className="text-muted hover:text-white transition-colors"
-                      title="Edit Profile"
+                      className="text-muted/40 hover:text-white transition-colors"
                     >
-                      <Settings size={14} />
+                      <Settings size={13} />
                     </button>
                   </div>
                   <button 
                     onClick={() => logout()}
-                    className="text-[10px] uppercase tracking-wider text-muted hover:text-accent transition-colors"
+                    className="text-[9px] font-black uppercase tracking-[0.1em] text-muted/30 hover:text-accent transition-colors"
                   >
-                    Logout
+                    Disconnect
                   </button>
                 </div>
-                <div className="h-10 w-10 overflow-hidden rounded-full border border-white/10 ring-2 ring-accent/10">
-                  {user.photoURL ? (
-                    <img src={user.photoURL} alt="Profile" className="h-full w-full object-cover" />
+                <div className="h-10 w-10 overflow-hidden rounded-full border border-white/[0.05] p-0.5 ring-2 ring-accent/5">
+                   {user.photoURL ? (
+                    <img src={user.photoURL} alt="Profile" className="h-full w-full object-cover rounded-full" />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-neutral-900">
-                      <UserIcon size={20} className="text-muted" />
+                    <div className="flex h-full w-full items-center justify-center bg-white/[0.03] rounded-full">
+                      <UserIcon size={18} className="text-muted/40" />
                     </div>
                   )}
                 </div>
@@ -121,10 +119,10 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
             ) : (
               <button
                 onClick={() => signInWithGoogle()}
-                className="group flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-bold text-black transition-all hover:bg-accent"
+                className="group relative flex items-center gap-3 rounded-full bg-white px-8 py-3 text-[10px] font-black uppercase tracking-widest text-black transition-all hover:bg-accent active:scale-95"
               >
-                <LogIn size={18} />
-                <span>Connect</span>
+                Connect identity
+                <ArrowRight size={14} strokeWidth={3} />
               </button>
             )}
           </div>

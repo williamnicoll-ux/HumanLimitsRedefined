@@ -19,84 +19,59 @@ export default function RecordOfTheDay() {
   if (!record) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-      <div className="bento-card relative overflow-hidden bg-gradient-to-br from-accent/5 to-transparent border-accent/20">
-        <div className="absolute top-0 right-0 p-8 opacity-10">
-          <Trophy size={120} strokeWidth={1} />
+    <section className="mx-auto max-w-7xl px-4 py-24 md:px-8">
+      <div className="bento-card relative overflow-hidden bg-[#0a0a0a] border-white/5 !p-0">
+        <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
+          <Trophy size={300} strokeWidth={0.5} />
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-          <div className="w-full lg:w-1/2">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="bg-accent px-3 py-1 rounded text-[10px] font-black text-black uppercase tracking-widest">
-                Record of the Day
-              </span>
-              <span className="flex items-center gap-1 text-[10px] font-bold text-muted uppercase tracking-widest">
-                <Star size={12} className="text-accent fill-accent" />
-                Featured Achievement
+        <div className="flex flex-col lg:flex-row items-stretch">
+          <div className="w-full lg:w-1/2 p-12 md:p-20">
+            <div className="mb-12 flex items-center gap-4">
+              <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+              <span className="text-[10px] font-black text-muted uppercase tracking-[0.3em]">
+                DAILTY FEATURED RECORD
               </span>
             </div>
 
-            <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter text-white mb-6 leading-none">
+            <h2 className="font-display text-6xl md:text-8xl uppercase tracking-tighter text-white mb-10 leading-[0.85]">
               {record.title}
             </h2>
 
-            <p className="text-lg text-muted mb-8 leading-relaxed max-w-xl">
+            <p className="text-xl text-muted/60 mb-12 leading-relaxed max-w-xl font-medium tracking-tight">
               {record.description}
             </p>
 
-            <div className="flex flex-wrap gap-8 mb-10">
+            <div className="grid grid-cols-2 gap-10 mb-16 border-y border-white/[0.03] py-10">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-1">Holder</p>
-                <p className="text-lg font-bold text-white">{record.holder}</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted/40 mb-3">Record Holder</p>
+                <p className="text-xl font-bold text-white tracking-tight">{record.holder}</p>
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-1">Location</p>
-                <p className="text-lg font-bold text-white">{record.location}</p>
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-1">Category</p>
-                <p className="text-lg font-bold text-white uppercase italic">{record.category}</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted/40 mb-3">Classification</p>
+                <p className="text-xl font-bold text-accent uppercase tracking-tighter italic">{record.category}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <button 
                 onClick={() => navigate(`/record/${record.id}`)}
-                className="flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-black text-black transition-all hover:bg-accent active:scale-95"
+                className="flex items-center gap-3 rounded-full bg-white px-10 py-5 text-xs font-black uppercase tracking-widest text-black transition-all hover:bg-accent active:scale-95"
               >
                 In-Depth Story
-                <ArrowRight size={18} strokeWidth={3} />
+                <ChevronRight size={18} strokeWidth={3} />
               </button>
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => alert("Liked!")}
-                  className="p-3 rounded-xl bg-white/5 border border-white/10 text-muted hover:text-accent hover:border-accent transition-all"
-                >
-                  <Heart size={20} />
-                </button>
-                <button 
-                  onClick={() => alert("Shared!")}
-                  className="p-3 rounded-xl bg-white/5 border border-white/10 text-muted hover:text-white hover:border-white transition-all"
-                >
-                  <Share2 size={20} />
-                </button>
-              </div>
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 relative aspect-video rounded-3xl overflow-hidden border border-white/10 group">
+          <div className="w-full lg:w-1/2 relative bg-neutral-900 overflow-hidden group min-h-[400px]">
              <img 
                src={record.imageUrl} 
                alt={record.title} 
-               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+               className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
              />
-             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-             <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
-                <div className="px-4 py-2 bg-black/80 backdrop-blur-md rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest">
-                  Est. {new Date(record.dateSet).getFullYear()}
-                </div>
-             </div>
+             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-transparent to-transparent opacity-80" />
+             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-40" />
           </div>
         </div>
       </div>
