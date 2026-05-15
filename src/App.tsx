@@ -15,7 +15,7 @@ import RecordOfTheDay from "./components/RecordOfTheDay";
 import Feed from "./components/Feed";
 import RecordDetail from "./components/RecordDetail";
 import SubmitRecordModal from "./components/SubmitRecordModal";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "motion/react";
 import { Trophy, Globe, History, TrendingUp, Sparkles, LogIn, Plus } from "lucide-react";
 import { signInWithGoogle } from "./lib/firebase";
