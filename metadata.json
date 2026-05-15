@@ -1,6 +1,6 @@
 {
-  "name": "RecordPulse",
-  "description": "A real-time hub for Guinness World Records with a personalized profile experience.",
+  "name": "VeraPeak",
+  "description": "The elite global archive for verified human achievement and peak performance tracking.",
   "requestFramePermissions": [],
   "majorCapabilities": ["firebase", "ai-powered"]
 }

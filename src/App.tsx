@@ -15,19 +15,43 @@ import RecordOfTheDay from "./components/RecordOfTheDay";
 import Feed from "./components/Feed";
 import RecordDetail from "./components/RecordDetail";
 import SubmitRecordModal from "./components/SubmitRecordModal";
-import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Onboarding from "./components/Onboarding";
+import Dashboard from "./components/Dashboard";
+import AuthPage from "./components/AuthPage";
+import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from "motion/react";
-import { Trophy, Globe, History, TrendingUp, Sparkles, LogIn, Plus } from "lucide-react";
+import { Trophy, Globe, History, TrendingUp, Sparkles, LogIn, Plus, ArrowRight } from "lucide-react";
 import { signInWithGoogle } from "./lib/firebase";
 import { useState } from "react";
 
-function HomePage({ user, searchQuery, onOpenSubmit }: { user: any; searchQuery: string; onOpenSubmit: () => void }) {
+function HomePage({ user, profile, searchQuery, onOpenSubmit }: { user: any; profile: any; searchQuery: string; onOpenSubmit: () => void }) {
   return (
     <>
       <Hero onOpenSubmit={onOpenSubmit} />
       
+      {/* Dashboard Shortcut for logged in users */}
+      {user && profile?.username && (
+        <section className="mx-auto max-w-7xl px-4 md:px-8 mt-12">
+          <Link to="/dashboard" className="bento-card border-accent/20 bg-accent/[0.03] flex items-center justify-between group">
+             <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
+                   <TrendingUp size={24} />
+                </div>
+                <div>
+                   <h4 className="text-sm font-black uppercase tracking-widest text-white">ACCESS YOUR COMMAND CENTER</h4>
+                   <p className="text-xs text-muted/60 font-medium tracking-tight">View your personal growth and submission analytics</p>
+                </div>
+             </div>
+             <div className="flex items-center gap-3 text-accent font-black text-[10px] uppercase tracking-widest group-hover:gap-5 transition-all">
+                Enter Dashboard
+                <ArrowRight size={16} strokeWidth={3} />
+             </div>
+          </Link>
+        </section>
+      )}
+
       {/* Featured Section */}
-      <div className="border-y border-white/5 bg-white/5 py-8 backdrop-blur-sm">
+      <div className="border-y border-white/5 bg-white/5 py-8 backdrop-blur-sm mt-12">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-8 px-4 md:gap-16">
             {[
               { icon: <TrendingUp className="text-accent" />, label: "Trending" },
@@ -64,13 +88,13 @@ function HomePage({ user, searchQuery, onOpenSubmit }: { user: any; searchQuery:
               <p className="mx-auto mb-10 max-w-lg text-black font-bold uppercase text-xs tracking-widest opacity-70">
                 Join the global community of record breakers. Track, verify, and celebrate the extraordinary deeds that define human potential.
               </p>
-              <button 
-              onClick={() => signInWithGoogle()}
-              className="group flex mx-auto items-center gap-3 rounded-2xl bg-black px-12 py-5 text-xl font-black text-white transition-all hover:scale-105 active:scale-95 shadow-2xl"
+              <Link 
+              to="/auth"
+              className="group flex mx-auto items-center justify-center gap-3 rounded-2xl bg-black px-12 py-5 text-xl font-black text-white transition-all hover:scale-105 active:scale-95 shadow-2xl w-fit"
               >
                 <LogIn size={24} strokeWidth={3} />
                 CONNECT PROFILE
-              </button>
+              </Link>
           </div>
         </section>
       )}
@@ -114,6 +138,7 @@ export default function App() {
   const { user, profile, loading } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isOnboardingRefresh, setIsOnboardingRefresh] = useState(0);
 
   if (loading) {
     return (
@@ -129,10 +154,24 @@ export default function App() {
     );
   }
 
+  // Enforce onboarding if logged in but no username
+  const showOnboarding = user && profile && !profile.username;
+
   return (
     <Router>
       <div className="min-h-screen bg-neutral-950 selection:bg-orange-600 selection:text-white">
         <BackgroundAnimation />
+        
+        {showOnboarding && (
+          <Onboarding 
+            profile={profile} 
+            onComplete={() => {
+              // Trigger a shallow refresh or just let state catch up
+              window.location.reload(); 
+            }} 
+          />
+        )}
+
         <Navbar 
           user={user} 
           profile={profile} 
@@ -142,8 +181,10 @@ export default function App() {
         
         <main>
           <Routes>
-            <Route path="/" element={<HomePage user={user} searchQuery={searchQuery} onOpenSubmit={() => setIsSubmitModalOpen(true)} />} />
+            <Route path="/" element={<HomePage user={user} profile={profile} searchQuery={searchQuery} onOpenSubmit={() => setIsSubmitModalOpen(true)} />} />
             <Route path="/record/:id" element={<RecordDetail />} />
+            <Route path="/auth" element={user ? <Navigate to="/" /> : <AuthPage />} />
+            <Route path="/dashboard" element={user && profile?.username ? <Dashboard profile={profile} /> : <Navigate to="/auth" />} />
           </Routes>
         </main>
 
@@ -158,28 +199,28 @@ export default function App() {
           <div className="grid grid-cols-2 gap-16 md:grid-cols-4">
              <div className="col-span-2 md:col-span-1">
                 <Link to="/" className="flex items-center gap-2 mb-8 group">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-bold text-black group-hover:scale-110 transition-transform">
-                    <div className="w-3 h-3 bg-black rounded-sm"></div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent font-black text-black group-hover:scale-110 transition-transform">
+                    <div className="w-4 h-4 bg-black rounded-sm transform rotate-12 group-hover:rotate-0 transition-transform"></div>
                   </div>
-                  <span className="font-display text-2xl tracking-tight uppercase text-white">RecordStream</span>
+                  <span className="font-display text-2xl tracking-tight uppercase text-white">VERAPEAK</span>
                 </Link>
-                <p className="text-xs font-bold uppercase tracking-widest leading-relaxed text-muted">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] leading-relaxed text-muted/40">
                   The ultimate hub for extraordinary human achievement. Real-time verification, global insights, and the pulse of world records.
                 </p>
              </div>
              
              <div>
                <h4 className="mb-8 text-[10px] font-black uppercase tracking-[0.3em] text-accent">Navigation</h4>
-               <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-muted">
+               <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest text-muted/60">
                  <li><button onClick={() => document.getElementById('feed')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-white transition-colors">Records Grid</button></li>
-                 <li><button onClick={() => document.getElementById('feed')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-white transition-colors">Categories</button></li>
+                 <li><Link to="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
                  <li><button onClick={() => alert("Leaderboard coming soon!")} className="hover:text-white transition-colors">Leaderboard</button></li>
                </ul>
              </div>
 
              <div>
                <h4 className="mb-8 text-[10px] font-black uppercase tracking-[0.3em] text-accent">Platform</h4>
-               <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-muted">
+               <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest text-muted/60">
                  <li><a href="#" className="hover:text-white transition-colors">Methodology</a></li>
                  <li><a href="#" className="hover:text-white transition-colors">Verification</a></li>
                  <li><a href="#" className="hover:text-white transition-colors">Terms of Pulse</a></li>
@@ -188,7 +229,7 @@ export default function App() {
 
              <div>
                <h4 className="mb-8 text-[10px] font-black uppercase tracking-[0.3em] text-accent">Connect</h4>
-               <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-muted">
+               <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest text-muted/60">
                  <li><a href="#" className="hover:text-white transition-colors">Newsletter</a></li>
                  <li><a href="#" className="hover:text-white transition-colors">Discord</a></li>
                  <li><a href="#" className="hover:text-white transition-colors">X / Twitter</a></li>
@@ -197,8 +238,8 @@ export default function App() {
           </div>
           
           <div className="mt-24 flex flex-col md:flex-row items-center justify-between border-t border-white/5 pt-10 gap-6">
-             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-800">© 2026 RECORDSTREAM. ESTABLISHING INFINITY.</p>
-             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted">
+             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted/20">© 2026 VERAPEAK. ESTABLISHING INFINITY.</p>
+             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted/40">
                 <Globe size={14} className="text-accent" />
                 <span>Global Ops / HQ</span>
              </div>

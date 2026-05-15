@@ -25,7 +25,12 @@ export function useAuth() {
             displayName: u.displayName,
             email: u.email,
             photoURL: u.photoURL,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            stats: {
+              recordsSubmitted: 0,
+              points: 0,
+              rank: "NOVICE"
+            }
           };
           await setDoc(docRef, newProfile);
           setProfile(newProfile);

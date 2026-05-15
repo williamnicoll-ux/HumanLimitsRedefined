@@ -1,11 +1,17 @@
 export interface UserProfile {
   uid: string;
+  username?: string;
   displayName: string | null;
   email: string | null;
   photoURL: string | null;
   bio?: string;
   favoriteCategory?: string;
   createdAt: number;
+  stats?: {
+    recordsSubmitted: number;
+    points: number;
+    rank: string;
+  };
 }
 
 export interface WorldRecord {

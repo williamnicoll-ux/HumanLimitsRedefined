@@ -54,24 +54,19 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
               <div className="absolute inset-0 rounded-xl border border-white/20"></div>
             </div>
             <span className="font-display text-2xl tracking-[-0.05em] uppercase md:block hidden text-white">
-              PEAK<span className="text-muted/40">ACHIVE</span>
+              VERA<span className="text-muted/40">PEAK</span>
             </span>
           </Link>
 
           <div className="flex items-center gap-10">
             <div className="hidden md:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.2em]">
               <Link to="/" className="text-accent hover:text-white transition-colors">Digital Grid</Link>
+              <Link to="/dashboard" className="text-muted/60 hover:text-white transition-colors">Dashboard</Link>
               <button 
                 onClick={handleCategoriesClick}
                 className="text-muted/60 hover:text-white transition-colors"
               >
                 Categories
-              </button>
-              <button 
-                onClick={() => alert("Leaderboard coming soon!")}
-                className="text-muted/60 hover:text-white transition-colors"
-              >
-                Elite Rank
               </button>
             </div>
 
@@ -91,7 +86,7 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
               <div className="flex items-center gap-5">
                 <div className="flex flex-col items-end gap-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-black uppercase tracking-tight text-white">{profile?.displayName || user.displayName}</span>
+                    <span className="text-[11px] font-black uppercase tracking-tight text-white">{profile?.username || profile?.displayName || user.displayName}</span>
                     <button 
                       onClick={() => setIsEditModalOpen(true)}
                       className="text-muted/40 hover:text-white transition-colors"
@@ -106,7 +101,7 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
                     Disconnect
                   </button>
                 </div>
-                <div className="h-10 w-10 overflow-hidden rounded-full border border-white/[0.05] p-0.5 ring-2 ring-accent/5">
+                <Link to="/dashboard" className="h-10 w-10 overflow-hidden rounded-full border border-white/[0.05] p-0.5 ring-2 ring-accent/5">
                    {user.photoURL ? (
                     <img src={user.photoURL} alt="Profile" className="h-full w-full object-cover rounded-full" />
                   ) : (
@@ -114,16 +109,16 @@ export default function Navbar({ user, profile, searchQuery, setSearchQuery }: N
                       <UserIcon size={18} className="text-muted/40" />
                     </div>
                   )}
-                </div>
+                </Link>
               </div>
             ) : (
-              <button
-                onClick={() => signInWithGoogle()}
+              <Link
+                to="/auth"
                 className="group relative flex items-center gap-3 rounded-full bg-white px-8 py-3 text-[10px] font-black uppercase tracking-widest text-black transition-all hover:bg-accent active:scale-95"
               >
                 Connect identity
                 <ArrowRight size={14} strokeWidth={3} />
-              </button>
+              </Link>
             )}
           </div>
         </div>
